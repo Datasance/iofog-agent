@@ -1,0 +1,44 @@
+name: Sync to iofog-agent (datasance branch)
+
+on:
+  push:
+    branches:
+      - community
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.PUSH_TOKEN }}
+
+      # - name: Replace 'AlpaslanDogan' with 'DATASANCE'
+      #   run: |
+      #     find . -type f -not -path "./.git/*" -exec sed -i 's/AlpaslanDogan/DATASANCE/g' {} +
+
+      - name: Commit replacements if any (excluding workflow file)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          COMMIT_MSG=$(git log -1 --pretty=%B)
+
+          if git diff --quiet -- . ':(exclude).github/workflows/sync.yml'; then
+            echo "No changes to commit."
+          else
+            git add . ':!./.github/workflows/sync.yml'
+            git commit -m "$COMMIT_MSG"
+            git push origin community
+          fi
+
+      - name: Push to iofog-agent (datasance branch)
+        run: |
+          git remote add target https://x-access-token:${{ secrets.PUSH_TOKEN }}@github.com/Datasance/iofog-agent.git
+          git push target community:datasance --force
