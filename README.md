@@ -1,4 +1,4 @@
-# The ioFog Agent product
+# The ioFog Agent product Community Branch
 
 Imagine a world where you can choose self-contained pieces of code (called microservices) and make them run anywhere you want at the push of a button. Where you can remotely control the code that is running on twenty iPhones in workers' pockets, thirty servers running in a factory building, and ten computers running in the trucks that ship your products... and you can do it all with the same single technology. Imagine a world where you move the processing close to where the data is happening, and where you can finally separate streams of information from the end applications that use them. This world will be brought to life by iofog, and a big part of the vision is the ioFog product that runs on the various computers.
 
